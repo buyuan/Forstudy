@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author cbuyu
+ *
+ */
+module ForStudy {
+}
