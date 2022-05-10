@@ -121,7 +121,60 @@ public class T15 {
     	}
     	return ans;
     }
-
+    public static List<List<Integer>> threeSum_update(int[] nums) {
+    	if(nums==null) {
+    		return null;
+    	}
+    	//先排序,然后target-每个元素就变成2sum问题,用左右指针 可以做一些剪枝,
+    	sort(nums);
+    	List<List<Integer>>  ans = new  ArrayList<>();
+    	
+    	int size = nums.length;
+    	for(int i=0;i<size-2;i++) {//-2是因为要有三个位置
+    		if(nums[i]>0) {
+    			break;//第一个数大于0,后面不可能相加为0
+    		}
+    		int target =0-nums[i];
+    		int l=i+1; int r = size-1;
+    		while(l<r) {
+    			int sum = nums[l]+nums[r];
+    			if(sum==target) {   				
+    				ans.add(new ArrayList(Arrays.asList(nums[i],nums[l],nums[r])));
+    				while(l<r&&nums[l]==nums[l+1]) {
+    					l++;//去除重复
+    				}
+    				while(l<r&&nums[r]==nums[r-1]) {
+    					r--;
+    				}
+    				l++;r--;
+    			}else if(sum>target) {
+    				r--;
+    			}else {
+    				l++;
+    			}  			
+    		}
+    		while(nums[i+1]==nums[i]&&i<size-2) {
+    			i++;//避免重复,
+    		}
+    	}
+    	return ans;
+    }
+    
+	private static void sort(int[] nums) {
+		// TODO Auto-generated method stub
+			int size = nums.length;
+			for(int i=0;i<size;i++) {
+				for(int j=0;j<size-1-i;j++) {
+					if(nums[j]>nums[j+1]) {
+						int temp = nums[j];
+						nums[j]  = nums[j+1];
+						nums[j+1]=temp;
+					}
+				}
+			}	
+	}
+	
+	
 	public static void main(String[] args) {
 		int nums1 [] = {-1,0,1,2,-1,-4};
 		int nums2 [] = null;
@@ -325,10 +378,25 @@ public class T15 {
 				-89304,-12235,41488,1454,5355,-34855,-72080,24514,-58305,3340,34331,8731,77451,-64983,-57876,82874,62481,-32754,
 				-39902,22451,-79095,-23904,78409,-7418,77916};
 		int nums5[] = {};
-		List<List<Integer>>  ans = threeSum_better(nums5);
-		System.out.println(ans.isEmpty());
-		for(List<Integer> i : ans) {
+		int nums6[] = {0,0,0,0}; 
+		int nums7[] = {-1,0,1,2,-1,-4};
+		
+		int[] nums = nums7;
+		List<List<Integer>>  ans = threeSum_update(nums);
+//		System.out.println(ans.isEmpty());
+		if(ans!=null) {
+			for(List<Integer> i : ans) {
 				System.out.println(i);
+			}
 		}
+
 	}
+	private static void display(int[] nums1) {
+		// TODO Auto-generated method stub
+		for(int x:nums1) {
+			System.out.print(x+",");
+		}
+		
+	}
+
 }

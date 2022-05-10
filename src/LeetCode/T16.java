@@ -1,4 +1,9 @@
 package LeetCode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 16. 3Sum Closest
 Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.
@@ -34,8 +39,59 @@ public class T16 {
 		int target1 = 1;
 		int nums2[] = {0,0,0};
 		int target2 = 1;
-		System.out.println(threeSumClosest_better(nums1, target1));
+		System.out.println(threeSumClosest_update(nums1, target1));
 	}
+	 public static int threeSumClosest_update(int[] nums, int target) {
+		 //我发现这个方法和下面的better一样
+	    	if(nums==null) {
+	    		return (Integer) null;
+	    	}
+	    	//先排序,然后target-每个元素就变成2sum问题,用左右指针 可以做一些剪枝,
+	    	sort(nums);  
+    		int result =Integer.MAX_VALUE;
+    		int min_dis =Integer.MAX_VALUE;
+	    	int size = nums.length;
+	    	for(int i=0;i<size-2;i++) {//-2是因为要有三个位置
+	    		int l=i+1; int r = size-1;
+	    		int first = nums[i];
+	    		while(l<r) {
+	    			int sum = nums[l]+nums[r];
+	    			if(sum+first==target) {   				
+	    				result = sum+first;
+	    				break;
+	    			}else {
+	    				int dis = distance(sum+first,target);
+	    				if(dis<min_dis) {
+	    					result = sum+first;
+	    					min_dis=dis;
+	    				}	    				
+	    				if(sum+first>target) {
+	    					r--;
+	    				}else {
+	    					l++;
+	    				}
+	    			}
+	    		}
+	    		while(nums[i+1]==nums[i]&&i<size-2) {
+	    			i++;//避免重复,
+	    		}
+	    	}
+	    	return result;
+	    }
+	    
+		private static void sort(int[] nums) {
+			// TODO Auto-generated method stub
+				int size = nums.length;
+				for(int i=0;i<size;i++) {
+					for(int j=0;j<size-1-i;j++) {
+						if(nums[j]>nums[j+1]) {
+							int temp = nums[j];
+							nums[j]  = nums[j+1];
+							nums[j+1]=temp;
+						}
+					}
+				}	
+		}
 	public static int threeSumClosest_better(int[] nums, int target) {	
 		for(int i=1;i<nums.length;i++) {
 			for(int j=0;j<nums.length-i;j++) {
