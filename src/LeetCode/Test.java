@@ -44,26 +44,55 @@ package LeetCode;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
 public class Test {
-    public static void main(String[] args) {
-    	String a = "abcde";
-    	a.replace((char) 1,'w');
-    	test2 s = new test2();
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+    	List<List<Integer>> res = new LinkedList<>();
+    	if(root==null) {
+    		return res;
+    	}
+    	//for input the node in the same index
+    	Map<Integer, ArrayList<Integer>> mp = new HashMap<>();
+    	//for track the boundary
+    	int lowIndex=0;
+    	int highIndex=0;
     	
+        Queue<Pair> qu = new LinkedList<>();
+        qu.add(new Pair(root,0));
+        while(!qu.isEmpty()) {
+        	Pair cur = qu.poll();
+        	int idx = cur.index;       	
+        	if(!mp.containsKey(idx)) {
+        		mp.put(idx, new ArrayList<Integer>());
+        	}
+        	mp.get(idx).add(cur.tn.val);
+        	lowIndex =Math.min(lowIndex, idx);
+        	highIndex=Math.max(highIndex, idx);
+        	if(cur.tn.left!=null) {
+        		qu.add(new Pair(cur.tn.left,idx-1));
+        	}
+        	if(cur.tn.right!=null) {
+        		qu.add(new Pair(cur.tn.right,idx+1));
+        	}
+        }
+        for(int j=lowIndex;j<=highIndex;j++) {
+        	res.add(mp.get(j));
+        }
+        return res;
     }
-  
-
 }
 
-class test2{
-	int a;
-	
+class Pair{
+	TreeNode tn;
+	Integer index;
+	public Pair(TreeNode t, Integer i) {
+		this.tn=t;
+		this.index =i;
+	}
 }
-
-
-

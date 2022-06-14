@@ -15,6 +15,7 @@ package LeetCode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class T94 {
 	private List<Integer> result  = new ArrayList<>();
@@ -32,4 +33,24 @@ public class T94 {
 		result.add(root.val);
 		dfs(root.right);
 	}
+    public List<Integer> inorderTraversal_Stack(TreeNode root) {
+    	List<Integer> res=new ArrayList<>();
+    	if(root==null) {
+    		return res;
+    	}
+        //Inorder, 左,中,右
+    	Stack<TreeNode> stk = new Stack<>();
+    	TreeNode p = root;   	
+    	while(p!=null||!stk.isEmpty()) {
+    		while(p!=null) {
+    			stk.push(p);
+    			p=p.left;
+    		}
+    		p=stk.pop();
+    		res.add(p.val);
+    		p=p.right;
+    		
+    	}
+    	return res;
+    }	
 }
