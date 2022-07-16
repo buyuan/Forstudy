@@ -44,7 +44,9 @@ package LeetCode;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -52,47 +54,40 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class Test {
-    public List<List<Integer>> verticalOrder(TreeNode root) {
-    	List<List<Integer>> res = new LinkedList<>();
-    	if(root==null) {
-    		return res;
-    	}
-    	//for input the node in the same index
-    	Map<Integer, ArrayList<Integer>> mp = new HashMap<>();
-    	//for track the boundary
-    	int lowIndex=0;
-    	int highIndex=0;
-    	
-        Queue<Pair> qu = new LinkedList<>();
-        qu.add(new Pair(root,0));
-        while(!qu.isEmpty()) {
-        	Pair cur = qu.poll();
-        	int idx = cur.index;       	
-        	if(!mp.containsKey(idx)) {
-        		mp.put(idx, new ArrayList<Integer>());
-        	}
-        	mp.get(idx).add(cur.tn.val);
-        	lowIndex =Math.min(lowIndex, idx);
-        	highIndex=Math.max(highIndex, idx);
-        	if(cur.tn.left!=null) {
-        		qu.add(new Pair(cur.tn.left,idx-1));
-        	}
-        	if(cur.tn.right!=null) {
-        		qu.add(new Pair(cur.tn.right,idx+1));
-        	}
-        }
-        for(int j=lowIndex;j<=highIndex;j++) {
-        	res.add(mp.get(j));
-        }
-        return res;
-    }
-}
+	public List<List<String>> partition(String s){
+		List<List<String>> res = new ArrayList<>();
+		
+		helper(res, s, new ArrayList<String>(),0);
+		return res;
+		
+	}
 
-class Pair{
-	TreeNode tn;
-	Integer index;
-	public Pair(TreeNode t, Integer i) {
-		this.tn=t;
-		this.index =i;
+	private void helper(List<List<String>> res, String s, ArrayList<String> cur, int l) {
+		// TODO Auto-generated method stub
+		if(l==s.length()) {
+			res.add(new ArrayList(cur));
+			return;
+		}
+		int len=s.length();
+		for(int r=l;r<len;r++) {
+			if(isP(s,l,r)) {
+				cur.add(s.substring(l,r+1));
+				helper(res,s,cur,r+1);
+				//backtrace
+				cur.remove(cur.size()-1);
+			}
+		}
+		
+		
+	}
+
+	private boolean isP(String s, int l, int r) {
+		while(l<=r) {
+			if(s.charAt(l)!=s.charAt(r)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
+
