@@ -52,10 +52,13 @@ public class T77 {
 		}
 		//从左边界开始遍历，
 		for(int i=leftBound;i<=Upper;i++) {
+			/*
+			 * 应该是没有重复的
 			if(cur.contains(i)) {
 				//重复的不要
 				continue;
 			}
+			*/
 			cur.add(i);
 			helper(res,cur,numberLeft-1,Upper,i+1);
 			cur.remove(cur.size()-1);

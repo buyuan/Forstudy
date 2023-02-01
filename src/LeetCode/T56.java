@@ -90,6 +90,7 @@ public class T56 {
         		cur[1] = cur[1]>intervals[i][1]?cur[1]:intervals[i][1];
         	}
         }
+      //incase only one item in interval or the last one merge nor add
         if(size==0||(cur[1]!=result.get(size-1)[1])){
         	result.add(cur);
         	size++;

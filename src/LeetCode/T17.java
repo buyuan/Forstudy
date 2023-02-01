@@ -65,6 +65,7 @@ public class T17 {
 			ans.add(cur);
 			return ;
 		}
+		//回避返回的数组大小不同问题
 		for(String c: phoneKeyboard.get(digits.charAt(index))) {
 			cur+=c;
 			DFS(phoneKeyboard,digits,ans,index+1,cur);//每找到一条路,就往深度走
